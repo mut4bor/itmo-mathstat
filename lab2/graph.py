@@ -1,31 +1,40 @@
 import matplotlib.pyplot as plt
-from sample import generatePopulation, generateSample
+import numpy as np
+from sample import generateNormalPopulation, generatePopulation, generateSample
+from scipy.stats import gaussian_kde, norm, uniform
 
 
-def makeGraph(population, sampleSize, title="graph"):
-    x = [0]
-    y = [0]
+def makeGraph(population, sampleSize, trueDensity, xRange, title="graph", gridSize=400):
+    sample = np.array(generateSample(population, sampleSize))
+    kde = gaussian_kde(sample, bw_method="silverman")
+    h = kde.factor * np.std(sample, ddof=1)
 
-    sample = sorted(generateSample(population, sampleSize))
+    x = np.linspace(*xRange, gridSize)
 
-    for index, value in enumerate(sample):
-        x.append(value)
-        y.append((index + 1) / sampleSize)
-
-    x.append(1)
-    y.append(1)
-
-    plt.step(x, y, where="post")
-    plt.plot([0, 1], [0, 1], color="red", linestyle="--")
-    plt.xlabel("x(n)")
-    plt.ylabel("Fr*(x)")
+    plt.plot(x, kde(x), label=f"KDE (h = {h:.4f})")
+    plt.plot(x, trueDensity(x), color="red", linestyle="--", label="f(x)")
+    plt.xlabel("x")
+    plt.ylabel("f*(x)")
     plt.title(title)
+    plt.legend()
     plt.show()
 
 
-population = generatePopulation(0, 1, 10**6)
+mathExpect = 0
+dispersion = 1
 
-makeGraph(population, 10**1, "Graph 1")
-makeGraph(population, 10**2, "Graph 2")
-makeGraph(population, 10**3, "Graph 3")
-makeGraph(population, 10**4, "Graph 4")
+population = generatePopulation(0, 1, 10**6)
+normalPopulation = generateNormalPopulation(mathExpect, dispersion, 10**6)
+
+uniformDensity = uniform(0, 1).pdf
+normalDensity = norm(mathExpect, np.sqrt(dispersion)).pdf
+
+makeGraph(population, 10**1, uniformDensity, (-0.2, 1.2), f"Uniform, n = {10**1}")
+makeGraph(population, 10**2, uniformDensity, (-0.2, 1.2), f"Uniform, n = {10**2}")
+makeGraph(population, 10**3, uniformDensity, (-0.2, 1.2), f"Uniform, n = {10**3}")
+makeGraph(population, 10**4, uniformDensity, (-0.2, 1.2), f"Uniform, n = {10**4}")
+
+makeGraph(normalPopulation, 10**1, normalDensity, (-4, 4), f"Normal, n = {10**1}")
+makeGraph(normalPopulation, 10**2, normalDensity, (-4, 4), f"Normal, n = {10**2}")
+makeGraph(normalPopulation, 10**3, normalDensity, (-4, 4), f"Normal, n = {10**3}")
+makeGraph(normalPopulation, 10**4, normalDensity, (-4, 4), f"Normal, n = {10**4}")

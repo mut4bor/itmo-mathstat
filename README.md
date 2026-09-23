@@ -15,7 +15,7 @@ Run from the repo root:
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install matplotlib
+pip install matplotlib numpy scipy
 ```
 
 **Windows (Git Bash)**
@@ -23,7 +23,7 @@ pip install matplotlib
 ```bash
 python -m venv .venv
 source .venv/Scripts/activate
-pip install matplotlib
+pip install matplotlib numpy scipy
 ```
 
 **macOS / Linux**
@@ -31,19 +31,19 @@ pip install matplotlib
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install matplotlib
+pip install matplotlib numpy scipy
 ```
 
 ### Activate the venv
 
 From the repo root:
 
-| Shell              | Command                         |
-| ------------------ | ------------------------------- |
-| PowerShell         | `.venv\Scripts\Activate.ps1`    |
-| cmd                | `.venv\Scripts\activate.bat`    |
-| Git Bash           | `source .venv/Scripts/activate` |
-| macOS / Linux      | `source .venv/bin/activate`     |
+| Shell         | Command                         |
+| ------------- | ------------------------------- |
+| PowerShell    | `.venv\Scripts\Activate.ps1`    |
+| cmd           | `.venv\Scripts\activate.bat`    |
+| Git Bash      | `source .venv/Scripts/activate` |
+| macOS / Linux | `source .venv/bin/activate`     |
 
 Git Bash uses forward slashes and `Scripts/`: `.venv/bin/activate` doesn't exist on Windows, and backslash paths fail in bash.
 

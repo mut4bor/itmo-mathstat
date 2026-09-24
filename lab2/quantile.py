@@ -1,14 +1,14 @@
 import math
 
 import numpy as np
-from sample import generateNormalPopulation, generatePopulation, generateSample
-from scipy.stats import gaussian_kde, norm, uniform
+from sample import generateSample
+from scipy.stats import gaussian_kde
 
 
 def ecdfQuantile(sample, p):
     xs = np.sort(sample)
     F = np.arange(1, len(xs) + 1) / len(xs)
-    return xs[np.searchsorted(F, p - 1e-12)]
+    return xs[np.searchsorted(F, p)]
 
 
 def histogramQuantile(sample, p):
@@ -39,24 +39,3 @@ def printQuantiles(population, sampleSize, trueDistribution, title):
             f"{histogramQuantile(sample, p):>9.4f} {kdeQuantile(sample, p):>9.4f}"
         )
     print()
-
-
-if __name__ == "__main__":
-    mathExpect = 0
-    dispersion = 1
-
-    population = generatePopulation(0, 1, 10**6)
-    normalPopulation = generateNormalPopulation(mathExpect, dispersion, 10**6)
-
-    uniformDistribution = uniform(0, 1)
-    normalDistribution = norm(mathExpect, np.sqrt(dispersion))
-
-    printQuantiles(population, 10**1, uniformDistribution, "Uniform")
-    printQuantiles(population, 10**2, uniformDistribution, "Uniform")
-    printQuantiles(population, 10**3, uniformDistribution, "Uniform")
-    printQuantiles(population, 10**4, uniformDistribution, "Uniform")
-
-    printQuantiles(normalPopulation, 10**1, normalDistribution, "Normal")
-    printQuantiles(normalPopulation, 10**2, normalDistribution, "Normal")
-    printQuantiles(normalPopulation, 10**3, normalDistribution, "Normal")
-    printQuantiles(normalPopulation, 10**4, normalDistribution, "Normal")

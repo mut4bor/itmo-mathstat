@@ -17,7 +17,7 @@ def makeGraph(population, sampleSize, trueDensity, xRange, title="graph", h=None
     plt.xlabel("x")
     plt.ylabel("f*(x)")
     plt.title(title)
-    plt.legend()
+    # plt.legend()
     plt.show()
 
 

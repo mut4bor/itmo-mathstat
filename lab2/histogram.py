@@ -20,7 +20,6 @@ def makeHistogram(population, sampleSize, trueDensity, xRange, title="Histogram"
     x = np.linspace(*xRange, 400)
     plt.plot(x, trueDensity(x), color="red", linestyle="--", label="f(x)")
 
-    # plt.legend()
     plt.title(title)
     plt.xlabel("Value")
     plt.ylabel("Density")

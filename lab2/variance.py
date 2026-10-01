@@ -26,21 +26,16 @@ def printVariances(population, sampleSize, trueDistribution, title, repeats=10**
     trueQuantiles = trueDistribution.ppf(P)
     theory = P * (1 - P) / (sampleSize * trueDistribution.pdf(trueQuantiles) ** 2)
     variances = estimates.var(axis=0, ddof=1)
-    biases = estimates.mean(axis=0) - trueQuantiles
 
     print(f"{title}, n = {sampleSize}, N = {repeats}")
     print(
         f"{'p':>6} {'theory':>12} "
         + " ".join(f"{'Var ' + name:>12}" for name, _ in METHODS)
-        + " "
-        + " ".join(f"{'bias ' + name:>10}" for name, _ in METHODS)
     )
     for k, p in enumerate(P):
         print(
             f"{p:>6} {formatFloat(theory[k]):>12} "
             + " ".join(f"{formatFloat(v):>12}" for v in variances[:, k])
-            + " "
-            + " ".join(f"{b:>+10.4f}" for b in biases[:, k])
         )
     print()
 
@@ -49,17 +44,13 @@ def printVariances(population, sampleSize, trueDistribution, title, repeats=10**
     markdown.append(
         "| p | theory | "
         + " | ".join(f"Var {name}" for name, _ in METHODS)
-        + " | "
-        + " | ".join(f"bias {name}" for name, _ in METHODS)
         + " |"
     )
-    markdown.append("|" + "---|" * (2 + 2 * len(METHODS)))
+    markdown.append("|" + "---|" * (2 + len(METHODS)))
     for k, p in enumerate(P):
         markdown.append(
             f"| {p} | {formatFloat(theory[k])} | "
             + " | ".join(f"{formatFloat(v)}" for v in variances[:, k])
-            + " | "
-            + " | ".join(f"{b:+.4f}" for b in biases[:, k])
             + " |"
         )
     markdown.append("")

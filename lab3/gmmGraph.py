@@ -41,10 +41,22 @@ sampleSizes = np.unique(np.logspace(1, 4, 60).astype(int))
 
 for weights, label in [("identity", "W = I"), ("optimal", "W = S^-1")]:
     makeGraph(
-        population, sampleSizes, uniformMoments, uniformGMM, (0, 1), ("a", "b"),
-        weights, f"Uniform, GMM, {label}",
+        population,
+        sampleSizes,
+        uniformMoments,
+        uniformGMM,
+        (0, 1),
+        ("a", "b"),
+        weights,
+        f"Uniform, GMM, {label}",
     )
     makeGraph(
-        exponentialPopulation, sampleSizes, exponentialMoments, exponentialGMM,
-        (lam,), ("λ",), weights, f"Exponential, GMM, {label}",
+        exponentialPopulation,
+        sampleSizes,
+        exponentialMoments,
+        exponentialGMM,
+        (lam,),
+        ("λ",),
+        weights,
+        f"Exponential, GMM, {label}",
     )

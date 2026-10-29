@@ -46,21 +46,56 @@ def methodStyle(methodName):
     }
 
 
+def decadeLimits(values):
+    return 10 ** np.floor(np.log10(np.min(values))), 10 ** np.ceil(
+        np.log10(np.max(values))
+    )
+
+
+# 1-2-5 ticks covering [low, high], e.g. 0.001, 0.002, 0.005, 0.01, ..., 1
+def oneTwoFiveTicks(low, high):
+    decades = range(int(np.log10(low)), int(np.log10(high)))
+    return np.array([m * 10.0**d for d in decades for m in (1, 2, 5)] + [high])
+
+
+# Places the 1-2-5 ticks at equal distances, like the sample sizes on the
+# x axis, interpolating log10 linearly between neighbouring ticks.
+def equalTickScale(ax, ticks):
+    logTicks = np.log10(ticks)
+    index = np.arange(len(ticks))
+
+    def forward(y):
+        with np.errstate(divide="ignore", invalid="ignore"):
+            return np.interp(np.log10(y), logTicks, index)
+
+    def inverse(i):
+        return 10 ** np.interp(i, index, logTicks)
+
+    ax.set_yscale("function", functions=(forward, inverse))
+    ax.set_yticks(ticks, [f"{v:g}" for v in ticks])
+    ax.set_ylim(ticks[0], ticks[-1])
+
+
 def makeGraph(title, tables):
     fig, axes = plt.subplots(
-        len(tables), 1, sharex=True, figsize=(8, 4.5 * len(tables)), squeeze=False
+        1, len(tables), sharex=True, figsize=(6 * len(tables), 6), squeeze=False
     )
-    for ax, (heading, n, sd) in zip(axes[:, 0], tables):
+    for ax, (heading, n, sd) in zip(axes[0], tables):
+        # Sample sizes on a linear axis from 0 to max(n); the 1-2-5 sd ticks
+        # are placed at equal distances.
+        x = n
         for methodName, values in sd.items():
-            ax.plot(n, values, label=methodName, **methodStyle(methodName))
-        ax.plot(n, sd["MoM"][0] * np.sqrt(n[0] / n), ":", color="gray", label="~ 1/√n")
-        ax.set_xscale("log")
-        ax.set_yscale("log")
+            ax.plot(x, values, label=methodName, **methodStyle(methodName))
+        ax.set_xticks(np.linspace(0, n[-1], 11))
+        ax.set_xlim(0, n[-1])
+        values = np.concatenate(list(sd.values()))
+        equalTickScale(ax, oneTwoFiveTicks(*decadeLimits(values)))
+        ax.set_box_aspect(1)
+        ax.set_xlabel("n")
         ax.set_ylabel(heading.split(",")[0])
         ax.set_title(f"Standard deviation: {heading}")
-        ax.grid(True, which="both", alpha=0.3)
+        ax.grid(True, which="major", alpha=0.3)
 
-    axes[-1, 0].set_xlabel("n")
     axes[0, 0].legend(fontsize="small")
     fig.suptitle(title)
     fig.tight_layout()

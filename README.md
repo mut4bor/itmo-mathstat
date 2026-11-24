@@ -15,7 +15,7 @@ Run from the repo root:
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install matplotlib numpy scipy
+pip install matplotlib numpy scipy statsmodels
 ```
 
 **Windows (Git Bash)**
@@ -23,7 +23,7 @@ pip install matplotlib numpy scipy
 ```bash
 python -m venv .venv
 source .venv/Scripts/activate
-pip install matplotlib numpy scipy
+pip install matplotlib numpy scipy statsmodels
 ```
 
 **macOS / Linux**
@@ -31,7 +31,7 @@ pip install matplotlib numpy scipy
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install matplotlib numpy scipy
+pip install matplotlib numpy scipy statsmodels
 ```
 
 ### Activate the venv

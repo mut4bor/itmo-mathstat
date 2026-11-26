@@ -10,7 +10,6 @@ from pager import show
 
 sampleSizes = np.arange(10, 101, 10)
 
-# means[i, j], variances[i, j]: sample size i, estimator j
 means = np.empty((len(sampleSizes), len(ESTIMATORS)))
 variances = np.empty((len(sampleSizes), len(ESTIMATORS)))
 for i, n in enumerate(sampleSizes):

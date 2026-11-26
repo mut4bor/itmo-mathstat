@@ -12,9 +12,6 @@ def generateSamples(n):
     return rng.normal(mathExpect, np.sqrt(dispersion), (N, n))
 
 
-# (name, estimate over each row of samples, exact distribution of the estimate)
-# c* ~ N(m, D / n)
-# n * D*_biased / D ~ chi2(n - 1),  (n - 1) * D*_unbiased / D ~ chi2(n - 1)
 ESTIMATORS = [
     (
         "c*",

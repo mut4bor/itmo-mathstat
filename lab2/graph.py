@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pager import show  # noqa: E402
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sample import generateNormalPopulation, generatePopulation, generateSample
@@ -17,7 +23,7 @@ def makeGraph(population, sampleSize, trueDensity, xRange, title="graph", h=None
     plt.xlabel("x")
     plt.ylabel("f*(x)")
     plt.title(title)
-    plt.show()
+    show()
 
 
 mathExpect = 0

@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pager import show  # noqa: E402
+
 import math
 
 import matplotlib.pyplot as plt
@@ -23,7 +29,7 @@ def makeHistogram(population, sampleSize, trueDensity, xRange, title="Histogram"
     plt.title(title)
     plt.xlabel("Value")
     plt.ylabel("Density")
-    plt.show()
+    show()
 
 
 mathExpect = 0

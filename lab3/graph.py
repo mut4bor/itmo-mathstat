@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pager import show  # noqa: E402
+
 import matplotlib.pyplot as plt
 import numpy as np
 from moments import exponentialMoments, uniformMoments
@@ -17,7 +23,7 @@ def makeGraph(population, sampleSizes, estimate, trueParams, names, title="graph
     plt.ylabel("Estimate")
     plt.title(title)
     plt.legend()
-    plt.show()
+    show()
 
 
 lam = 1

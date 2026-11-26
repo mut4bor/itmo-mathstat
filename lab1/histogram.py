@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pager import show  # noqa: E402
+
 import matplotlib.pyplot as plt
 from sample import generatePopulation, generateSample
 
@@ -12,7 +18,7 @@ def makeHistogram(population, sampleSize, title="Histogram"):
     plt.title(title)
     plt.xlabel("Value")
     plt.ylabel("Frequency")
-    plt.show()
+    show()
 
 
 population = generatePopulation(0, 1, 10**6)

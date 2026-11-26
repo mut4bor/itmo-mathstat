@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pager import show  # noqa: E402
+
 import matplotlib.pyplot as plt
 from hypothesis import ALPHA, DISTRIBUTIONS, N, plotRates, rejectionRates
 
@@ -12,4 +18,4 @@ for ax, (title, draw) in zip(axes, DISTRIBUTIONS):
 
 fig.suptitle("H0: M = 0, true M = 0")
 fig.tight_layout()
-plt.show()
+show()

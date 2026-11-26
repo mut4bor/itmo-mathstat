@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pager import show  # noqa: E402
+
 import matplotlib.pyplot as plt
 from sample import generatePopulation, generateSample
 
@@ -20,7 +26,7 @@ def makeGraph(population, sampleSize, title="graph"):
     plt.xlabel("x(n)")
     plt.ylabel("Fr*(x)")
     plt.title(title)
-    plt.show()
+    show()
 
 
 population = generatePopulation(0, 1, 10**6)
